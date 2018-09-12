@@ -259,6 +259,15 @@ export default async function getBaseWebpackConfig (dir: string, {dev = false, i
           return context.indexOf(NEXT_PROJECT_ROOT_DIST) !== -1
         }
       }),
+      // This removes react-is in production, as it's not used there.
+      !dev && new webpack.IgnorePlugin({
+        checkResource: (resource) => {
+          return /react-is/.test(resource)
+        },
+        checkContext: (context) => {
+          return context.indexOf(path.join(NEXT_PROJECT_ROOT_DIST, 'lib', 'router')) !== -1
+        }
+      }),
       // Even though require.cache is server only we have to clear assets from both compilations
       // This is because the client compilation generates the build manifest that's used on the server side
       dev && new NextJsRequireCacheHotReloader(),
