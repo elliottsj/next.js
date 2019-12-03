@@ -1,1 +1,1 @@
-packages/next/build linguist-detectable=true
+packages/next/build/* linguist-detectable=true
