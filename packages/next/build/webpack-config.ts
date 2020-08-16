@@ -552,6 +552,10 @@ export default async function getBaseWebpackConfig(
   )
 
   function handleExternals(context: any, request: any, callback: any) {
+    if (request === 'react') {
+      console.log('context', context)
+    }
+
     if (request === 'next') {
       return callback(undefined, `commonjs ${request}`)
     }
@@ -604,6 +608,10 @@ export default async function getBaseWebpackConfig(
       return callback()
     }
 
+    if (request === 'react') {
+      console.log('res    ', res)
+    }
+
     // Same as above, if the request cannot be resolved we need to have
     // webpack "bundle" it so it surfaces the not found error.
     if (!res) {
@@ -639,10 +647,17 @@ export default async function getBaseWebpackConfig(
         baseRes = null
       }
 
+      if (request === 'react') {
+        console.log('baseRes', baseRes)
+      }
+
       // Same as above: if the package, when required from the root,
       // would be different from what the real resolution would use, we
       // cannot externalize it.
       if (baseRes !== res) {
+        if (request === 'react') {
+          console.log('baseRes !== res. bundling module.')
+        }
         return callback()
       }
     }
@@ -684,6 +699,9 @@ export default async function getBaseWebpackConfig(
           )
         : request
 
+      if (request === 'react') {
+        console.log('externalizing module')
+      }
       return callback(undefined, `commonjs ${externalRequest}`)
     }
 
