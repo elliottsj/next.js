@@ -14,7 +14,7 @@
         "master",
         "canary"
       ],
-      "registry": "https://registry.npmjs.org/"
+      "registry": "http://localhost:4873/"
     }
   },
   "version": "9.5.3-canary.12"
